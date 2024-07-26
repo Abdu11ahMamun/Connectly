@@ -1,0 +1,14 @@
+body{
+    background: #FF7F50!important;
+}
+
+.bg-primary{
+    background: #34495E!important;
+    color: #FDFEFE!important;
+}
+
+.banner{
+    width: 100%;
+    height: 93vh;
+    color:white;
+}

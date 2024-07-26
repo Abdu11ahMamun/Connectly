@@ -1,9 +1,20 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="base::layout(~{::section})">
 <head>
-    <title>Hello World</title>
+    <meta charset="UTF-8">
+    <title th::text="${title}">Home Page</title>
 </head>
 <body>
-    <h1>Hello World</h1>
+<section class="banner d-flex justify-content-center align-items-center vh-120">
+    <div class="text-center">
+        <img src="../img/conn-girl.png"class="" style="width:350px; height:300px;position: relative;">
+<!--        <p>User: <span sec:authentication="username">NOT FOUND</span></p>-->
+<!--        <p>Spring Roles: <span sec:authentication="principal.authorities">NOT FOUND</span></p>-->
+        <h1>Connectly- Contact Management Tool</h1>
+        <button class="btn btn-primary btn-sm">Get Started</button>
+    </div>
+</section>
 </body>
 </html>

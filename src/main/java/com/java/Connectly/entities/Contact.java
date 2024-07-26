@@ -13,7 +13,7 @@ public class Contact {
     private String work;
     private String email;
     private String phone;
-    private String image;
+    private String imageURL;
     @Column(length = 250)
     private String description;
     @ManyToOne
@@ -78,12 +78,12 @@ public class Contact {
         this.phone = phone;
     }
 
-    public String getImage() {
-        return image;
+    public String getImageURL() {
+        return imageURL;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public String getDescription() {

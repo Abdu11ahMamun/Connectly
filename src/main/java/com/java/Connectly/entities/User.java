@@ -21,7 +21,7 @@ public class User {
     private String about;
     private boolean enabled;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "user")
     private List<Contact> contacts= new ArrayList<>();
 
     public List<Contact> getContacts() {
@@ -30,9 +30,6 @@ public class User {
 
     public void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
-    }
-
-    public User() {
     }
 
     public int getId() {
