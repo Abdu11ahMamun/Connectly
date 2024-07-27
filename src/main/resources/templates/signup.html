@@ -7,9 +7,57 @@
     <title th::text="${title}">About Page</title>
 </head>
 <body>
-<section class="banner d-flex justify-content-center align-items-center vh-120">
-    <div class="text-center">
-        <h1>This is About page</h1>
+<section class="banner">
+    <div class="container  align-self-center">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="my-card">
+                    <div class="container text-center" >
+                        <img src="../img/document-writing.png"class="" style="width:100px;">
+
+                    </div>
+                    <h1 class="text-center">Register Here</h1>
+                    <form action="" th:action="@{/do_register}" method="post">
+                    <!--name field-->
+                        <div class="form-group">
+                            <label for="name_field">Your Name</label>
+                            <input type="text" class="form-control" id="name_field" placeholder="Enter Your Name" required>
+                        </div>
+
+                        <!--Email field-->
+                        <div class="form-group">
+                            <label for="email_field">Email Name</label>
+                            <input type="email" class="form-control" id="email_field" placeholder="Enter Your Email" required>
+                        </div>
+
+
+                        <!--Password field-->
+                        <div class="form-group">
+                            <label for="password_field">Your Name</label>
+                            <input type="password" class="form-control" id="password_field" placeholder="Enter Your Password" required>
+                        </div>
+
+                        <!--User about field-->
+
+                        <div class="form-group">
+                            <textarea id="user-about" rows="10" class="form-control" placeholder="Tell us something about youself"></textarea>
+                        </div>
+
+                        <div class="container">
+                            <button type="submit" class="btn bg-primary text-white">
+                                submit
+                            </button>
+                            <button type="reset" class="btn bg-primary text-white">
+                                Reset
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
     </div>
 </section>
 </body>
