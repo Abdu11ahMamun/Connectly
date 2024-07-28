@@ -3,13 +3,14 @@ package com.java.Connectly.Contoller;
 import com.java.Connectly.entities.User;
 import com.java.Connectly.entities.Contact;
 
+import com.java.Connectly.helper.Message;
 import com.java.Connectly.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class HomeController {
@@ -33,6 +34,42 @@ public class HomeController {
     public String helloWorld(Model model) {
         model.addAttribute("title","Home -Connectly for everyone");
         return "hello.html";
+    }
+    @RequestMapping(value = "/about")
+    public String about(Model model) {
+        model.addAttribute("title","About -Connectly for everyone");
+        return "about";
+    }
+
+    @RequestMapping(value = "/signup")
+    public String signup(Model model, HttpSession session) {
+        model.addAttribute("title", "SignUp -Connectly for everyone");
+        model.addAttribute("user", new User());
+        model.addAttribute("session", session);
+        return "signup";
+    }
+
+    @RequestMapping(value = "/do_register", method = RequestMethod.POST)
+    public String registerUser(@ModelAttribute("user") User user,
+                               @RequestParam(value = "agreement", defaultValue = "false") boolean agreement,
+                               Model model, HttpSession session) {
+        try {
+            if (!agreement) {
+                throw new Exception("You have not agreed to the terms and conditions!");
+            }
+            user.setRole("ROLE_USER");
+            user.setEnabled(true);
+
+            User result = this.userRepository.save(user);
+            model.addAttribute("user", new User());
+            session.setAttribute("message", new Message("Successfully Registered", "alert-success"));
+            return "signup";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("user", user);
+            session.setAttribute("message", new Message("Something Went wrong!! " + e.getMessage(), "alert-error"));
+            return "signup";
+        }
     }
 
 

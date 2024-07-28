@@ -13,17 +13,5 @@ public class HelloWorld {
         return "hello.html";
     }
 
-    @RequestMapping(value = "/about")
-    public String about(Model model) {
-        model.addAttribute("title","About -Connectly for everyone");
-        return "about";
-    }
-
-    @RequestMapping(value = "/signup")
-    public String signup(Model model) {
-        model.addAttribute("title","SignUp -Connectly for everyone");
-        return "signup";
-    }
-
 
 }
