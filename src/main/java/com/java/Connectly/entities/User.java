@@ -1,9 +1,13 @@
 package com.java.Connectly.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Entity
 @Table(name = "USER")
@@ -11,18 +15,33 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @NotBlank(message = "Name field is required!")
+    @Size(min = 2, max = 20, message = "Name must be between 2 and 20 characters!")
     private String name;
+
+    @NotBlank(message = "Email field is required!")
+    @Email(message = "Email should be valid!")
     @Column(unique = true)
     private String email;
+
+    @NotBlank(message = "Password field is required!")
+    @Size(min = 6, message = "Password must be at least 6 characters long!")
     private String password;
+
+    @NotBlank(message = "Role is required!")
     private String role;
+
     private String imageUrl;
-    @Column(length = 250 )
+
+    @Size(max = 250, message = "About section must be less than 250 characters!")
     private String about;
+
     private boolean enabled;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "user")
-    private List<Contact> contacts= new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Contact> contacts = new ArrayList<>();
+
 
     public List<Contact> getContacts() {
         return contacts;

@@ -7,9 +7,11 @@ import com.java.Connectly.helper.Message;
 import com.java.Connectly.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -50,12 +52,16 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/do_register", method = RequestMethod.POST)
-    public String registerUser(@ModelAttribute("user") User user,
+    public String registerUser(@Valid @ModelAttribute("user") User user,
                                @RequestParam(value = "agreement", defaultValue = "false") boolean agreement,
-                               Model model, HttpSession session) {
+                               Model model, BindingResult bindingResult, HttpSession session) {
         try {
             if (!agreement) {
                 throw new Exception("You have not agreed to the terms and conditions!");
+            }
+            if (bindingResult.hasErrors()){
+                model.addAttribute("user", user);
+                return "signup";
             }
             user.setRole("ROLE_USER");
             user.setEnabled(true);
