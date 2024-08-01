@@ -44,25 +44,26 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/signup")
-    public String signup(Model model, HttpSession session) {
-        model.addAttribute("title", "SignUp -Connectly for everyone");
+    public String signup(Model model) {
+        model.addAttribute("title", "SignUp - Connectly for everyone");
         model.addAttribute("user", new User());
-        model.addAttribute("session", session);
         return "signup";
     }
 
     @RequestMapping(value = "/do_register", method = RequestMethod.POST)
-    public String registerUser(@Valid @ModelAttribute("user") User user,
+    public String registerUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult,
                                @RequestParam(value = "agreement", defaultValue = "false") boolean agreement,
-                               Model model, BindingResult bindingResult, HttpSession session) {
+                               Model model, HttpSession session) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("user", user);
+            return "signup";
+        }
+
         try {
             if (!agreement) {
                 throw new Exception("You have not agreed to the terms and conditions!");
             }
-            if (bindingResult.hasErrors()){
-                model.addAttribute("user", user);
-                return "signup";
-            }
+
             user.setRole("ROLE_USER");
             user.setEnabled(true);
 
@@ -73,7 +74,7 @@ public class HomeController {
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("user", user);
-            session.setAttribute("message", new Message("Something Went wrong!! " + e.getMessage(), "alert-error"));
+            session.setAttribute("message", new Message("Something Went Wrong!! " + e.getMessage(), "alert-error"));
             return "signup";
         }
     }

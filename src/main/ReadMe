@@ -1,0 +1,14 @@
+1. Maven vs Gradle project
+2. How Gradle works
+
+
+
+
+/*MySQL command*/
+
+1. mysql -u root -p
+2. SHOW DATABASES;
+3. CREATE DATABASE database_name;
+4. USE database_name;
+5. SHOW TABLES;
+6. ModelAttribute
