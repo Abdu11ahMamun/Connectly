@@ -22,7 +22,7 @@
                     <form novalidate action="" th:action="@{/do_register}" method="post" th:object="${user}">
                         <!--name field-->
                         <div class="form-group">
-                            <label for="name_field">Your Name w</label>
+                            <label for="name_field">Your Name</label>
                             <input name="name" type="text" class="form-control" th:classappend="${#fields.hasErrors('name') ? 'is-invalid': ''}" id="name_field" placeholder="Enter Your Name" required th:value="${user.name}">
                             <div class="invalid-feedback" th:each="e : ${#fields.errors('name')}" th:text="${e}">
                             </div>
@@ -30,7 +30,7 @@
 
                         <!--Email field-->
                         <div class="form-group">
-                            <label for="email_field">Email Nam2e</label>
+                            <label for="email_field">Email</label>
                             <input name="email" type="email" class="form-control" th:classappend="${#fields.hasErrors('email') ? 'is-invalid': ''}" id="email_field" placeholder="Enter Your Email" required th:value="${user.email}">
                             <div class="invalid-feedback" th:each="e : ${#fields.errors('email')}" th:text="${e}">
                             </div>
