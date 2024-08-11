@@ -30,6 +30,11 @@ public class UserController {
         model.addAttribute("user", user);
         return "userPages/dashboard";
     }
+
+    public String openAddContact(Model model, Principal principal){
+
+        return "userPages/addContact";
+    }
 }
 
 /*

@@ -18,6 +18,20 @@ body{
 }
 
 /* sidebar styles */
+@media only screen and (max-width: 600px){
+    .sidebar{
+        display: none;
+        width:80%!important;
+        background: white;
+        height:100vh;
+        position:fixed;
+        padding-top:20px;
+    }
+    .content{
+        margin-left:0%!important;
+    }
+
+}
 .sidebar{
     width:18%;
     background: white;
@@ -39,7 +53,7 @@ body{
 }
 
 .sidebar .divider{
- height: 5px;
+ height: .5px;
  width: 100%;
  background: #e2e2e2;
  margin-top: 10px;
@@ -49,5 +63,12 @@ body{
 .content{
     width:18%;
     margin-left:20px;
+}
 
+.sidebar .crossButton{
+    position:absolute;
+    top: 0px;
+    right:35px;
+    font-size: 36px;
+    cursor: pointer;
 }
