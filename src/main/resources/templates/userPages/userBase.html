@@ -18,7 +18,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+<nav class="fixed-top navbar navbar-expand-lg navbar-light bg-primary">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -50,7 +50,7 @@
     </div>
 </nav>
 <!--starts sidebar-->
-<div class="sidebar">
+<div class="sidebar mt-2">
     <span onclick="toggleSidebar()" class="crossButton">&times;</span>
     <a href="#" th:href="@{/user/index}" class="item"> <i class="fa-solid fa-house-user"></i> Home</a>
     <a href="#" class="item"> <i class="fa-solid fa-address-book"></i> View Contacts</a>
@@ -61,7 +61,7 @@
     <div class="divider"></div>
 </div>
 <!--ends sidebar-->
-<div class="content">
+<div class="content mt-5">
     <i onclick="toggleSidebar()" class="fas fa-bars m-3"></i>
     <div th:replace="${content}"></div>
 </div>

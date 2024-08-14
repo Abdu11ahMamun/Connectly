@@ -16,7 +16,9 @@ body{
     border:1px solid #fffff;
     border-radius: 25px;
 }
-
+ .custom-card {
+    width: 600px;
+  }
 /* sidebar styles */
 @media only screen and (max-width: 600px){
     .sidebar{
@@ -30,6 +32,9 @@ body{
     .content{
         margin-left:0%!important;
     }
+     .custom-card {
+        width: 400px;
+      }
 
 }
 .sidebar{
@@ -38,6 +43,7 @@ body{
     height:100%;
     position:fixed;
     padding-top:45px;
+    z-index:999999999999;
 
 }
 .sidebar a{
@@ -61,8 +67,9 @@ body{
 
 
 .content{
-    width:18%;
-    margin-left:20px;
+    width: 95%; /* Adjusted to take more space */
+    margin-left: 20%;
+    padding: 20px;
 }
 
 .sidebar .crossButton{
