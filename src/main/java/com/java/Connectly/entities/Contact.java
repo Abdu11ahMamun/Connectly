@@ -1,5 +1,6 @@
 package com.java.Connectly.entities;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,6 +14,7 @@ public class Contact {
     private String work;
     private String email;
     private String phone;
+    @Nullable
     private String imageURL;
     @Column(length = 250)
     private String description;
@@ -92,5 +94,20 @@ public class Contact {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "cId=" + cId +
+                ", name='" + name + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", work='" + work + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", imageURL='" + imageURL + '\'' +
+                ", description='" + description + '\'' +
+                ", user=" + user +
+                '}';
     }
 }

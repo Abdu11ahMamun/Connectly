@@ -38,6 +38,19 @@ public class UserController {
         model.addAttribute("contact", new Contact());
         return "userPages/addContactForm";
     }
+
+    @PostMapping("/process-contact")
+    public String processContact(@ModelAttribute Contact contact, Principal principal){
+        //first bring the user who actually saving the data
+        String name= principal.getName();
+        User user = this.userRepository.getUserByEmail(name);
+        System.out.println("Data: "+contact);
+        contact.setUser(user); //give contact the user, for bidirectional mapping
+        //bring the user's contact list then add the new contact into that list
+        user.getContacts().add(contact);
+        this.userRepository.save(user);
+        return "userPages/addContactForm";
+    }
 }
 
 /*
