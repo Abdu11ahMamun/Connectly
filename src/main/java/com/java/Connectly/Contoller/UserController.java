@@ -7,12 +7,19 @@ import com.java.Connectly.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 
 @Controller
@@ -40,15 +47,30 @@ public class UserController {
     }
 
     @PostMapping("/process-contact")
-    public String processContact(@ModelAttribute Contact contact, Principal principal){
-        //first bring the user who actually saving the data
-        String name= principal.getName();
-        User user = this.userRepository.getUserByEmail(name);
-        System.out.println("Data: "+contact);
-        contact.setUser(user); //give contact the user, for bidirectional mapping
-        //bring the user's contact list then add the new contact into that list
-        user.getContacts().add(contact);
-        this.userRepository.save(user);
+    public String processContact(@ModelAttribute Contact contact, @RequestParam("imageURL") MultipartFile file, Principal principal){
+      try{
+          //first bring the user who actually saving the data
+          String name= principal.getName();
+          User user = this.userRepository.getUserByEmail(name);
+          System.out.println("Data: "+contact);
+          if (file.isEmpty()){
+              throw new Exception();
+          }else{
+              contact.setImageURL(file.getOriginalFilename());
+
+              File saveFile= new ClassPathResource("static/img").getFile();
+              Path path=Paths.get(saveFile.getAbsolutePath()+File.separator+file.getOriginalFilename());
+              Files.copy(file.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
+              System.out.println("Image uploaded!");
+          }
+
+          contact.setUser(user); //give contact the user, for bidirectional mapping
+          //bring the user's contact list then add the new contact into that list
+          user.getContacts().add(contact);
+          this.userRepository.save(user);
+      }catch (Exception e){
+          e.printStackTrace();
+      }
         return "userPages/addContactForm";
     }
 }
