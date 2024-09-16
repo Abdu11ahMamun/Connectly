@@ -45,34 +45,48 @@ public class UserController {
         model.addAttribute("contact", new Contact());
         return "userPages/addContactForm";
     }
-
     @PostMapping("/process-contact")
-    public String processContact(@ModelAttribute Contact contact, @RequestParam("imageURL") MultipartFile file, Principal principal){
-      try{
-          //first bring the user who actually saving the data
-          String name= principal.getName();
-          User user = this.userRepository.getUserByEmail(name);
-          System.out.println("Data: "+contact);
-          if (file.isEmpty()){
-              throw new Exception();
-          }else{
-              contact.setImageURL(file.getOriginalFilename());
+    public String processContact(@ModelAttribute Contact contact,
+                                 @RequestParam("imageFile") MultipartFile file,
+                                 Principal principal) {
+        System.out.println("Entered processContact method");
+        try {
+            // Retrieve the user who is saving the data
+            String name = principal.getName();
+            System.out.println("Principal Name: " + name);
+            User user = this.userRepository.getUserByEmail(name);
+           // System.out.println("User Retrieved: " + user);
 
-              File saveFile= new ClassPathResource("static/img").getFile();
-              Path path=Paths.get(saveFile.getAbsolutePath()+File.separator+file.getOriginalFilename());
-              Files.copy(file.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
-              System.out.println("Image uploaded!");
-          }
+            if (file.isEmpty()) {
+                System.out.println("File is empty, no image uploaded.");
+            } else {
+                // Save the file to an external directory
+                String uploadDir = "/Users/abdullahalmamun/SpringBootProjects/springBootUploadedImageDir";
+                File saveDir = new File(uploadDir);
+                if (!saveDir.exists()) {
+                    saveDir.mkdirs();
+                }
+                String fileName = file.getOriginalFilename();
+                Path path = Paths.get(saveDir.getAbsolutePath() + File.separator + fileName);
+                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("Image uploaded to: " + path);
 
-          contact.setUser(user); //give contact the user, for bidirectional mapping
-          //bring the user's contact list then add the new contact into that list
-          user.getContacts().add(contact);
-          this.userRepository.save(user);
-      }catch (Exception e){
-          e.printStackTrace();
-      }
+                // Set the image file name or path to the contact
+                contact.setImageURL(fileName);
+            }
+
+            contact.setUser(user);
+            user.getContacts().add(contact);
+            this.userRepository.save(user);
+
+        } catch (Exception e) {
+            System.err.println("An error occurred: " + e.getMessage());
+            e.printStackTrace();
+        }
+
         return "userPages/addContactForm";
     }
+
 }
 
 /*
