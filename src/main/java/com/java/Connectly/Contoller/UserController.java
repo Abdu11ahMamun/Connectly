@@ -48,7 +48,7 @@ public class UserController {
     @PostMapping("/process-contact")
     public String processContact(@ModelAttribute Contact contact,
                                  @RequestParam("imageFile") MultipartFile file,
-                                 Principal principal) {
+                                 Principal principal, HttpSession session) {
         System.out.println("Entered processContact method");
         try {
             // Retrieve the user who is saving the data
@@ -70,21 +70,19 @@ public class UserController {
                 Path path = Paths.get(saveDir.getAbsolutePath() + File.separator + fileName);
                 Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
                 System.out.println("Image uploaded to: " + path);
-
-                // Set the image file name or path to the contact
                 contact.setImageURL(fileName);
             }
 
             contact.setUser(user);
             user.getContacts().add(contact);
             this.userRepository.save(user);
-
+            session.setAttribute("message", new Message("Successfully Registered", "alert-success"));
+            return "userPages/addContactForm";
         } catch (Exception e) {
-            System.err.println("An error occurred: " + e.getMessage());
             e.printStackTrace();
+            session.setAttribute("message", new Message("Something Went Wrong!! " + e.getMessage(), "alert-error"));
+            return "userPages/addContactForm";
         }
-
-        return "userPages/addContactForm";
     }
 
 }
