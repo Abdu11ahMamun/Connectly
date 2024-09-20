@@ -84,7 +84,10 @@ public class UserController {
             return "userPages/addContactForm";
         }
     }
-
+    @GetMapping("/show-contacts")
+    public String showContacts(Model m){
+        return "userPages/show_contacts";
+    }
 }
 
 /*
