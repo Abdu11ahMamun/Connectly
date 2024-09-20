@@ -10,6 +10,42 @@
 <section class="d-flex justify-content-center align-items-center vh-120">
   <div class="text-center">
     <h1>Show Contacts</h1>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover table-striped">
+        <thead class="thead-dark">
+        <tr>
+          <th>#</th> <!-- Serial ID -->
+          <th>Name</th>
+          <th>Second Name</th>
+          <th>Work</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Description</th>
+          <th>Action</th> <!-- Edit Button -->
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterate over the list of contacts passed from the controller -->
+        <tr th:each="contact, iterStat : ${contacts}">
+          <td th:text="${iterStat.index + 1}">1</td> <!-- Serial ID -->
+          <td th:text="${contact.name}">Name</td>
+          <td th:text="${contact.secondName}">Second Name</td>
+          <td th:text="${contact.work}">Work</td>
+          <td th:text="${contact.email}">Email</td>
+          <td th:text="${contact.phone}">Phone</td>
+          <td th:text="${contact.description}">Description</td>
+          <td>
+            <!-- Edit Button -->
+            <a th:href="@{/user/edit-contact/{id}(id=${contact.cId})}" class="btn btn-primary btn-sm">Edit</a>
+          </td>
+        </tr>
+        <!-- Display a message if no contacts are found -->
+        <tr th:if="${#lists.isEmpty(contacts)}">
+          <td colspan="8" class="text-center">No contacts found.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>
 </body>

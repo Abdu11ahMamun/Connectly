@@ -3,6 +3,7 @@ package com.java.Connectly.Contoller;
 import com.java.Connectly.entities.Contact;
 import com.java.Connectly.entities.User;
 import com.java.Connectly.helper.Message;
+import com.java.Connectly.repository.ContactRepository;
 import com.java.Connectly.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -21,12 +22,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ContactRepository contactRepository;
 
     @ModelAttribute
     public void addCommonData(Model model, Principal principal){
@@ -85,7 +89,12 @@ public class UserController {
         }
     }
     @GetMapping("/show-contacts")
-    public String showContacts(Model m){
+    public String showContacts(Model model, Principal principal){
+        model.addAttribute("title","Show User Contacts");
+        String userEmail = principal.getName();
+        User user = this.userRepository.getUserByEmail(userEmail);
+        List<Contact> contacts = this.contactRepository.findCountactsByUser(user.getId());
+        model.addAttribute("contacts",contacts);
         return "userPages/show_contacts";
     }
 }
