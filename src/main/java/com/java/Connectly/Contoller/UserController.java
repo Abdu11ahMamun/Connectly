@@ -6,13 +6,11 @@ import com.java.Connectly.helper.Message;
 import com.java.Connectly.repository.ContactRepository;
 import com.java.Connectly.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,7 +20,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
-import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
@@ -65,7 +63,8 @@ public class UserController {
                 System.out.println("File is empty, no image uploaded.");
             } else {
                 // Save the file to an external directory
-                String uploadDir = "/Users/abdullahalmamun/SpringBootProjects/springBootUploadedImageDir";
+//                String uploadDir = "/Users/abdullahalmamun/SpringBootProjects/springBootUploadedImageDir";
+                String uploadDir = new File("src/main/resources/static/img").getAbsolutePath();
                 File saveDir = new File(uploadDir);
                 if (!saveDir.exists()) {
                     saveDir.mkdirs();
@@ -88,14 +87,26 @@ public class UserController {
             return "userPages/addContactForm";
         }
     }
-    @GetMapping("/show-contacts")
-    public String showContacts(Model model, Principal principal){
+    @GetMapping("/show-contacts/{page}")
+    public String showContacts(@PathVariable("page") Integer page,Model model, Principal principal){
         model.addAttribute("title","Show User Contacts");
         String userEmail = principal.getName();
         User user = this.userRepository.getUserByEmail(userEmail);
-        List<Contact> contacts = this.contactRepository.findCountactsByUser(user.getId());
+        PageRequest pageRequest= PageRequest.of(page, 5);
+        Page<Contact> contacts = this.contactRepository.findCountactsByUser(user.getId(),pageRequest);
         model.addAttribute("contacts",contacts);
+        model.addAttribute("currentPage",page);
+        model.addAttribute("totalPages",contacts.getTotalPages());
         return "userPages/show_contacts";
+    }
+
+    @RequestMapping("contact/{cId}")
+    public String showContactDetails(@PathVariable("cId") Integer cId, Model model){
+        model.addAttribute("title","Show User Contacts");
+        Optional<Contact> contactOptional = Optional.of(this.contactRepository.getById(cId));
+        Contact contact = contactOptional.get();
+        model.addAttribute("contact",contact);
+        return "userPages/contact_details";
     }
 }
 
