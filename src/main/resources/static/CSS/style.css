@@ -79,3 +79,15 @@ body{
     font-size: 36px;
     cursor: pointer;
 }
+
+.search-container{
+    position:relative;
+}
+
+.search-results{
+    position:absolute;
+    background: white;
+    width: 100%;
+    padding: 10px;
+    display: none;
+}

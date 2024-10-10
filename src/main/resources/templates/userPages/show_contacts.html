@@ -4,12 +4,18 @@
       th:replace="userPages/userBase::layout(~{::section})">
 <head>
   <meta charset="UTF-8">
-  <title>Home Page</title>
+  <title>Contact List</title>
 </head>
 <body>
 <section class="d-flex justify-content-center align-items-center vh-120">
   <div class="text-center">
-    <h1>Show Contacts</h1>
+    <h1>Your Contact List</h1>
+    <div class="search-container my-4">
+      <input onkeyup="search()" id="search-input" type="text" class="form-control" placeholder="Type contact name">
+        <div class="search-results">
+        </div>
+    </div>
+
     <div class="table-responsive">
       <table class="table table-bordered table-hover table-striped">
         <thead class="thead-dark">
@@ -20,7 +26,6 @@
           <th>Work</th>
           <th>Email</th>
           <th>Phone</th>
-          <th>Photo</th>
           <th>Action</th> <!-- Edit Button -->
         </tr>
         </thead>
@@ -42,8 +47,10 @@
           <td th:text="${contact.phone}">Phone</td>
           <td>
             <!-- Edit Button -->
-            <a th:href="@{/user/edit-contact/{id}(id=${contact.cId})}" class="btn btn-primary btn-sm">Edit</a>
-            <a th:href="@{/user/delete-contact/{id}(id=${contact.cId})}" class="btn btn-primary btn-sm">Delete</a>
+            <form method="post" th:action="@{/user/edit-contact/{id}(id=${contact.cId})}">
+              <button type="submit" class="btn btn-primary btn-sm">Edit</button>
+            </form>
+            <a th:href="@{/user/delete-contact/{id}(id=${contact.cId})}" class="btn btn-danger btn-sm">Delete</a>
           </td>
         </tr>
         <!-- Display a message if no contacts are found -->

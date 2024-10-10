@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="userPages/userBase::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>Update User Details</title>
+</head>
+<body>
+<section class="d-flex justify-content-center align-items-center vh-120">
+    <div class="text-center">
+        <div class="card custom-card">
+            <div class="card-body">
+                <h1 class="text-center">update user details</h1>
+                <div class="container-fluid mt-1">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1">
+                            <form th:object="${user}"
+                                  enctype="multipart/form-data"
+                                  method="POST"
+                                  th:action="@{/user/update-user}"
+                                  class="mt-2">
+                                <!-- Image  -->
+                                <div class="text-center mb-4">
+                                    <img th:src="@{'/img/' + ${user.imageUrl}}" alt="User Image" style="width: 150px; height: 150px; border-radius: 50%;">
+                                </div>
+                                <input type="hidden" class="form-control" id="id" th:field="*{id}">
+                                <input type="hidden" class="form-control" id="imageUrl" th:field="*{imageUrl}">
+
+                                <!-- Name Field -->
+                                <div class="form-group row">
+                                    <label for="name" class="col-sm-3 col-form-label">Name</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Enter your name" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Email Field -->
+                                <div class="form-group row">
+                                    <label for="email" class="col-sm-3 col-form-label">Email</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                            </div>
+                                            <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Enter your email" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Password Field -->
+                                <div class="form-group row">
+                                    <label for="password" class="col-sm-3 col-form-label">Password</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                            </div>
+<!--                                            <input type="password" class="form-control" id="password" placeholder="Enter your Password">-->
+                                            <input type="password" class="form-control" id="password" th:field="*{password}" placeholder="Enter your Password">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- About Field -->
+                                <div class="form-group row">
+                                    <label for="about" class="col-sm-3 col-form-label">About</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
+                                            </div>
+                                            <textarea class="form-control" id="about" th:field="*{about}" placeholder="Enter a description" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Image URL Field -->
+                                <div class="form-group row">
+                                    <label for="imageFile" class="col-sm-3 col-form-label">Image Upload</label>
+                                    <div class="col-sm-9">
+                                        <input type="file" class="form-control-file" name="imageFile" id="imageFile">
+                                    </div>
+                                </div>
+                                <!-- Submit Button -->
+                                <div class="form-group text-center">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

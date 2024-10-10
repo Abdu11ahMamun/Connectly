@@ -1,5 +1,6 @@
 package com.java.Connectly.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
@@ -19,6 +20,7 @@ public class Contact {
     @Column(length = 250)
     private String description;
     @ManyToOne
+    @JsonIgnore
     private User user;
 
     public User getUser() {

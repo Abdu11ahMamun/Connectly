@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="userPages/userBase::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+</head>
+<body>
+<section class="d-flex justify-content-center align-items-center ">
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="card" style="width: 40rem;">
+            <div class="card-header text-center">
+                <h1>Profile Details</h1>
+            </div>
+            <div class="card-body" th:if="${user != null}">
+                <!-- Contact Image -->
+                <div class="text-center mb-4">
+                    <img th:src="@{'/img/' + ${user.imageUrl}}" alt="User Image" style="width: 150px; height: 150px; border-radius: 50%;">
+                </div>
+                <!-- Contact Name -->
+                <div class="mb-3">
+                    <h3>Name: <span th:text="${user.name}"></span></h3>
+                </div>
+
+                <!-- Contact Email -->
+                <div class="mb-3">
+                    <h3>Email: <span th:text="${user.email}"></span></h3>
+                </div>
+
+                <!-- Any other details -->
+                <!-- Example for additional fields, feel free to customize based on your Contact model -->
+                <div class="mb-3">
+                    <h3>About: <span th:text="${user.about}"></span></h3>
+                </div>
+
+                <div class="d-flex justify-content-center mt-8">
+                    <!-- Edit button -->
+                    <form method="post" th:action="@{/user/update-user/{id}(id=${user.id})}">
+                        <button type="submit" class="btn btn-primary btn-sm">Edit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
